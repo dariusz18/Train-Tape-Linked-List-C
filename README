@@ -1,0 +1,39 @@
+Initial, mi am creat trenul. Am folosit un struct pt vagoane si unul pt mecanic si pt santinela.
+Primele doua functii(createNode si initTrain) sunt pentru initierea trenului.
+
+Functia addVagon nu este neaparat obligatorie in rezolvarea problemei, dar am folosit o initial pt a testa anumite teste(da, testez teste, suna prost dar n am gasit alta exprimare:))) in main. A fost o functie care m a ajutat initial, ca sa vad in main ca merge sa introduc anumite valori in tren. Mai mult, m am folosit de ea la move_right, in cazul in care train->mecanic->next este egal cu santinela, creand un vagon cu # la final.
+
+Functia move, am folosit o pt a muta mecanicul, folosindu ma cum am zis mai sus in cazul lui move_right de functia ajutatoare addVagon.
+
+Functia inscription modifica valoarea vagonului in care este mecanicul.
+
+In functia decuplare, am folosit un while(daca ma uit mai bine, puteam sa scriu din prima while(iter != train->sentinel) am free la vagonul in care era mecanicul si am refacut legaturile.
+Am tratat cele 3 cazuri, daca mecanicul se afla in primul vagon, la mijloc sau in ultimul. Practic, este ca stergerea obisnuita a unui nod dintr o lista circulara dublu inlantuita.
+
+Functia clear am eliminat toate vagoanele, inafara de primul, la final, adaugand # in primul vagon, am pus mecanicul in primul vagon si am realizat legaturile cu santinela.
+
+In functia cuplare, am verificat pozitia mecanicului si am afisat eroare, in cazul in care era pe prima pozitie si trebuia sa inserez la stanga, am afisat eroare, altfel, am inserat la stanga, facand legaturile. La fel si pt inserarea la dreapta, dar fara a mai afisa posibilul mesaj ERROR. Am refacut legaturile...etc. De asemenea, am verificat la inceput daca trenul este NULL.
+
+Functia search, am gandit o in mai multe feluri. Initial, imi creasem un nou sir de caractere, in care voiam sa inserez valorile trenului, din punctul in care era mecanicul, pana la mecanic->prev(adica, daca aveam ABA|B|AA, sirul meu era BAAABA), dupa care cautam cu un strncmp sirul meu cerut, dupa care mutam mecanicul. Problema a fost, mutarea mecanicului, deoarece, gasisem oarecum o formula, dar n am reusit s o duc pana la capat, asa ca am schimbat abordarea. In aceasta implementare, parcurg cu un do while(am ales do while, deoarece mi s a parut mai convenabil decat un while, deoarece, intampinam probleme in momentul in care ajungeam la vagonul dinaintea mecanicului) si practic, numar cu un contor daca gasesc subsirul "sir" in vagon. M am gandit la exemplul |A|BABAA. Cand gasesc un element care este diferit de s[i] din vagon, dar totusi i ul(sau contorul) este diferit de 0, mecanicul se deplaseaza cu o pozitie in fata, pentru a vedea daca totusi sirul meu este "intercalat" intre caractere identice cu cele din sirul meu. De exemplu, la |A|BABAA si caut ABAA, cand ajung la cel de al doilea "B", mecanicul se duce o pozitie in fata, pentru a vedea acea "legatura" dintre subsiruri. In final, daca contorul este egal cu nr de caractere din sirul cautat, mut mecanicul in spate, deoarece il pusesem pe ultima aparitie a caracterului din sirul cautat si il mut pe primul caracter.
+
+La search_directie, am luat un sir, am construit in el valorile vagoanelor, in ordinea in care se afla mecanicul, am verificat cu un strncmp daca se afla mecanicul si l am deplasat cu ajutorul contorului pe pozitia ceruta.
+
+In showCurrent, am afisat in fisierul output valoarea vagonului in care se afla mecanicul.
+
+In printTrain, am afisat trenul, punand mecanicul intre | |.
+
+Dupa aceste functii, mi am construit coada, cu acele doua struct uri si cu primele doua functii(initNode si createQueue).
+
+Cu freeNode, dar free la valorile din coada, fiind o functie ajutatoare, nu neaparat necesara.
+
+Cu isEMpty, verific daca coada este goala sau nu, fiind tot o functie ajutatoare.
+
+Cu enqueue si dequeue adaug, sau scot comenzile din coada.
+
+Cu functia switch_q, am inversat toate legaturile next si prev dintre noduri. Totusi, pointerii head si tail ai cozii indica spre vechiul capat, asa ca, la final i am interschimbat si pe acestia.
+
+Functia executacomanda este tot o functie ajutatoare, pentru mine chiar necesara, deoarece, cu aceasta, apelez functiile dorite. Pe aceasta o apelez din main si ma duce spre functiile cerute de comenzile mele.
+
+In main, mi am creat cele doua fisiere, am initiat trenul si coada(coada este initial goala) , citesc din fisier nr de comenzi, si pt comenzile cerute(de tip UPDATE si SEARCH) le bag in coada, iar cand se citeste din fisier EXECUTE se scoate comanda din head ul cozii si se executa.
+
+Coding style ul l am realizat cu clang format, pentru o buna vizibilitate. Nu am folosit define, deoarece, numerele magice pe care le am sunt insesizabile(de exemplu, cand am citit comenzile din fisierul de intrare), fiind putine.
